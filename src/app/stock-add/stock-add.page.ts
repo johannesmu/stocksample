@@ -4,7 +4,7 @@ import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http
 import { AlertController } from '@ionic/angular';
 import { Http } from '@angular/http';
 //we need this to add stuff into the collections.
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AuthService } from '../auth.service';
 
 @Component({

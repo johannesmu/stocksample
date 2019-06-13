@@ -13,8 +13,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
+//removed because not used
+// import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 //after importing these items we need to ensure they're added to the appropriate places below
 import { MainService } from './main.service';
 import { HttpModule } from '@angular/http';
@@ -35,7 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
+    //removed because not used
+    // AngularFireDatabaseModule,
     //imported recently also..
     HttpClientModule,
     //added this because we are using firestore.

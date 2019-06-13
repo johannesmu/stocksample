@@ -16,17 +16,20 @@
      <ion-list>
        <b>List of stocks searched</b>
 
-       <div *ngFor="stock of stocks">
+       <!-- <div *ngFor="stock of stocks">
         <ion-list>
           {{stock}}
         </ion-list>
-       </div>
+       </div> -->
+       <ion-item *ngFor="let stock of followedStocks">
+         {{stock}}
+       </ion-item>
        
      </ion-list>
 
               <ion-fab vertical="bottom" horizontal="end" slot="fixed">
                 <ion-fab-button (click)="StockAddPage()">
-                  <ion-icon name="arrow-dropleft">Add</ion-icon>
+                  <ion-icon name="add"></ion-icon>
                 </ion-fab-button>
               </ion-fab>
     

@@ -6,20 +6,18 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
- auth: BehaviorSubject<any>;
+  auth: BehaviorSubject<any> = new BehaviorSubject(null);
 
   constructor(private afAuth:AngularFireAuth) { 
-
     this.afAuth.authState.subscribe((user) => {
       if( user ){
         this.auth.next(user);
       }else{
         this.auth.next(null);
       }
-    })
+    });
   }
-        //signUp func.... needs email type String, password type string
-        test(){}
+  
         
   signUp(email:string, password:string){
       return new Promise((resolve, reject)=>{
