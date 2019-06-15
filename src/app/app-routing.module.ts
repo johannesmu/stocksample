@@ -15,15 +15,11 @@ const routes: Routes = [
     path: 'stock-add',
     loadChildren: './stock-add/stock-add.module#StockAddPageModule'
   },
- // {
-    //path: 'list',
-    //loadChildren: './list/list.module#ListPageModule'
- // },
   { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
   { path: 'signin', loadChildren: './signin/signin.module#SigninPageModule' },
   { path: 'signout', loadChildren: './signout/signout.module#SignoutPageModule' },
-  { path: 'stock-add', loadChildren: './stock-add/stock-add.module#StockAddPageModule' }
-  //{ path: 'history', loadChildren: './history/history.module#HistoryPageModule' }
+  { path: 'stock-add', loadChildren: './stock-add/stock-add.module#StockAddPageModule' },
+  { path: 'history', loadChildren: './history/history.module#HistoryPageModule' }
 ];
 
 @NgModule({

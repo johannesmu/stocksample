@@ -4,10 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { StockAddPage } from './stock-add.page';
-//we need this mainservice to be able to retreieve the info from the site.>>(stockprice)
-import { MainService } from '../main.service';
 //retrieve requests from the API - Alpha Vantage.
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -24,6 +23,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     HttpClientModule,
+    ReactiveFormsModule,
     RouterModule.forChild(routes)
   ],
   declarations: [StockAddPage]

@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { Stocks } from '../models/stocks.interface';
 
 
+
 interface Stock {
   symbol: string
 }
@@ -29,12 +30,12 @@ export class HomePage implements OnInit {
     priceCompare: string, 
     priceYesterday: number
   }[];
-  followedStocks:Observable<Stocks[]>;
+  followedStocks$:Observable<Stocks[]>;
   constructor(
     private _mainService: MainService,
     private router: Router,
     private dataService: DataService,
-    // private authService: AuthService,
+    private authService: AuthService,
     public modalController: ModalController
   
   ) {
@@ -42,42 +43,46 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit(){
-    //get collections from firebase (this.stocks = ...)
-    // this.authService.auth.subscribe( (user) => {
-    //   if( user ){
-    //     let uid = user.uid;
-    //     this.followedStocks = this.dataService.getStocks( uid );
-    //   }
-    // });
+    // get collections from firebase (this.stocks = ...)
+    this.authService.auth.subscribe( (user) => {
+      if( user ){
+        let uid = user.uid;
+        console.log(uid);
+        this.followedStocks$ = this.dataService.getStocks( uid );
+        this.followedStocks$.subscribe((data) => {
+          console.log(data);
+        })
+      }
+    });
   }
   
     
   
 
-  getCurrentPrice(){
-    // this.errors = [];
-    // this.stocks = [];
-    this._mainService.getCurrentPrice(this.stock,(stockSymbol, valid) => {
-      if(valid === true){
-        this.getPrice(stockSymbol);
-      }else{
-        this.errors.push(stockSymbol);
-        this.stock = { symbol: ''};
-      }
-    })
-  }
+  // getCurrentPrice(){
+  //   // this.errors = [];
+  //   // this.stocks = [];
+  //   this._mainService.getCurrentPrice(this.stock,(stockSymbol, valid) => {
+  //     if(valid === true){
+  //       this.getPrice(stockSymbol);
+  //     }else{
+  //       this.errors.push(stockSymbol);
+  //       this.stock = { symbol: ''};
+  //     }
+  //   })
+  // }
 
-  getPrice(stockSymbol){
-    this._mainService.getPrice(stockSymbol, (Name, CurrentPrice, PriceYesterday) => {
-      var retrievedStock = { name: Name,
-                             currentPrice: CurrentPrice,
-                             priceCompare:(CurrentPrice - PriceYesterday).toFixed(2),
-                             priceYesterday:PriceYesterday};
+  // getPrice(stockSymbol){
+  //   this._mainService.getPrice(stockSymbol, (Name, CurrentPrice, PriceYesterday) => {
+  //     var retrievedStock = { name: Name,
+  //                            currentPrice: CurrentPrice,
+  //                            priceCompare:(CurrentPrice - PriceYesterday).toFixed(2),
+  //                            priceYesterday:PriceYesterday};
 
-      this.stocks.push(retrievedStock);
-      this.stock = {symbol: ''};
-    })
-  }
+  //     this.stocks.push(retrievedStock);
+  //     this.stock = {symbol: ''};
+  //   })
+  // }
 
   async StockAddPage(){
       const modal = await this.modalController.create({

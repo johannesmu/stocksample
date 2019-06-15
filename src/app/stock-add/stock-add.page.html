@@ -1,28 +1,51 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Find and Add Stock Tickers</ion-title>
+    <ion-title>Find a stock using a symbol</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<ion-item>
-    <ion-input placeholder="Symbol" [(ngModel)]="stockSymbol"></ion-input>
-</ion-item>
+  <ion-list>
+    <form [formGroup]="symbolForm">
+      <ion-item>
+          <ion-searchbar debounce="500" formControlName="symbolSearch" placeholder="Search by typing a stock symbol"></ion-searchbar>
+      </ion-item>
+    </form>
+    <!-- <ion-item>
+      <ion-toolbar>
+        <ion-buttons>
+          <ion-button color='primary' expand="full" (click)="findStock()">Find</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+        
+    </ion-item>
 
-<ion-item>
-    <ion-button color='primary' expand="full" (click)="findStock()">Find</ion-button>
-</ion-item>
+    <ion-item>
+        <ion-button color='primary' expand="full" (click)="saveStocks()">Save!</ion-button>
+    </ion-item>
 
-<ion-item>
-    <ion-button color='primary' expand="full" (click)="saveStocks()">Save!</ion-button>
-</ion-item>
+    <ion-item>
+      <b>Finds And Saves</b>
+    </ion-item>
 
-<ion-item>
-  <ion-list><b>Finds And Saves</b></ion-list>
-</ion-item>
-
-<ion-item>
-    <ion-list>Current price: <b>${{currentStockPrice}}</b> for '{{stockSymbol}}'</ion-list>
-</ion-item>
-
+    <ion-item>
+        Current price: <b>${{currentStockPrice}}</b> for '{{stockSymbol}}'
+    </ion-item> -->
+    <ion-list-header *ngIf="suggestSymbols.length > 0">
+      <h3>We found the following stocks</h3>
+    </ion-list-header>
+    <ion-item *ngFor="let stock of suggestSymbols" detail="true">
+      <ion-label><strong>{{stock.Symbol}}</strong> <br>{{stock['Company Name']}}</ion-label> 
+    </ion-item>
+  </ion-list>
 </ion-content>
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="close()">Close</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
