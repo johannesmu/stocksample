@@ -27,8 +27,38 @@
     </ion-list>
     </div> -->
     <ion-item *ngFor="let stock of followedStocks$ | async">
-      {{stock}}
-      <ion-label *ngIf="(followedStocks$ | async)?.length==0">You have not followed any stocks</ion-label>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <h3>{{stock.symbol}}</h3>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-row>
+              <ion-col>open: {{stock.open}}</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>close: {{stock.close}}</ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col>
+            <ion-row>
+              <ion-col>high: {{stock.high}}</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>low: {{stock.low}}</ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+    </ion-item>
+      
+    <ion-item *ngIf="(followedStocks$ | async)?.length==0">
+      <ion-label >
+        You have not followed any stocks
+      </ion-label>
     </ion-item>
       
   </ion-list>
