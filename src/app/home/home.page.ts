@@ -21,6 +21,8 @@ export class HomePage implements OnInit {
   
   followedStocks$:Observable<Stock[]>;
   userStocks:Array<Stock>=[];
+
+  
   constructor(
     private router: Router,
     private dataService: DataService,
