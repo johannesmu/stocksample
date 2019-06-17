@@ -24,7 +24,8 @@
     <ion-item *ngIf="(followedStocks$ | async)?.length > 0">
       <ion-button color="primary" (click)="updatePrices()">Update Prices</ion-button>
     </ion-item>
-    <ion-item *ngFor="let stock of followedStocks$ | async" detail="true" detailIcon="pulse">
+    <ion-item *ngFor="let stock of followedStocks$ | async" detail="true" detailIcon="pulse" (click)="stockDetailPage(stock)">
+      <ion-ripple-effect></ion-ripple-effect>
       <ion-label>{{stock.symbol}}</ion-label>
     </ion-item>
       

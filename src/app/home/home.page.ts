@@ -86,10 +86,11 @@ export class HomePage implements OnInit {
   async stockDetailPage( stock:Stock ){
     //open modal showing stock prices and graph?
     const modal = await this.modalController.create({
-      component: StockAddPage,
+      component: StockDetailPage,
       componentProps:{
         'stock': stock
       }
     });
+    return await modal.present();
   }
 }
