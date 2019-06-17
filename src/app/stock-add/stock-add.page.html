@@ -50,17 +50,17 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <strong>Open:</strong>{{currentStock.open}}<br>
-              <strong>High:</strong>{{currentStock.high}}
+              <strong>Open:</strong>{{currentStock.pricedata.open}}<br>
+              <strong>High:</strong>{{currentStock.pricedata.high}}
             </ion-col>
             <ion-col>
-              <strong>Low:</strong>{{currentStock.low}}<br>
-              <strong>Close:</strong>{{currentStock.close}}
+              <strong>Low:</strong>{{currentStock.pricedata.low}}<br>
+              <strong>Close:</strong>{{currentStock.pricedata.close}}
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              at {{currentStock.time | date: "EE, dd LLL yyyy hh:mm:ss"}}
+              at {{currentStock.pricedata.time | date: "EE, dd LLL yyyy hh:mm:ss"}}
             </ion-col>
           </ion-row>
           <ion-row>

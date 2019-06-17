@@ -21,38 +21,11 @@
     <ion-list-header>
       <h2>Stocks you follow</h2>
     </ion-list-header>
-    <!-- <div *ngFor="stock of stocks"> DO NOT USE divs with *ngFor in Ionic
-    <ion-list>
-      {{stock}}
-    </ion-list>
-    </div> -->
-    <ion-item *ngFor="let stock of followedStocks$ | async">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <h3>{{stock.symbol}}</h3>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <ion-row>
-              <ion-col>open: {{stock.open}}</ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>close: {{stock.close}}</ion-col>
-            </ion-row>
-          </ion-col>
-          <ion-col>
-            <ion-row>
-              <ion-col>high: {{stock.high}}</ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>low: {{stock.low}}</ion-col>
-            </ion-row>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      
+    <ion-item *ngIf="(followedStocks$ | async)?.length > 0">
+      <ion-button color="primary">Update Prices</ion-button>
+    </ion-item>
+    <ion-item *ngFor="let stock of followedStocks$ | async" detail="true" detailIcon="pulse">
+      <ion-label>{{stock.symbol}}</ion-label>
     </ion-item>
       
     <ion-item *ngIf="(followedStocks$ | async)?.length==0">

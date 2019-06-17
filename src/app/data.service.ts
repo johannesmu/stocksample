@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Stock } from '../app/models/stocks.interface';
+import { PriceData } from '../app/models/pricedata.interface';
 import { Http } from '@angular/http';
 import jsonData from '../assets/nasdaq-listed_json.json';
 
@@ -9,11 +10,14 @@ import jsonData from '../assets/nasdaq-listed_json.json';
   providedIn: 'root'
 })
 export class DataService {
+  currentPath:string;
   symbolsData:Array<any> = jsonData;
   symbols$:BehaviorSubject<Symbol[]> = new BehaviorSubject(null);
-  symbolsCollection: AngularFirestoreCollection<any>;
   stocksCollection: AngularFirestoreCollection<Stock>;
   userStocks:Observable<Stock[]>;
+
+  priceDataCollection: AngularFirestoreCollection<PriceData>;
+  priceData:Observable<PriceData[]>;
   constructor(
     private afs: AngularFirestore,
     private http: Http
@@ -26,15 +30,40 @@ export class DataService {
   }
 
   getStocks(uid):Observable<Stock[]>{
-    let path = `users/${uid}/stocks`;
-    this.stocksCollection = this.afs.collection<Stock>(path);
+    this.currentPath = `users/${uid}/stocks`;
+    this.stocksCollection = this.afs.collection<Stock>(this.currentPath);
     this.userStocks = this.stocksCollection.valueChanges();
     return this.userStocks;
   }
   addStock(stock: Stock) {
-    this.stocksCollection.add(stock);
+    //this is the first time the stock is added
+    this.stocksCollection.add({symbol: stock.symbol});
   }
-  //this function searches for the stock then returns if it is not found return error message
+  getPriceData( stock:Stock ){
+    return new Promise((resolve,reject) => {
+      //get the id of current stock
+      let stocks:AngularFirestoreCollection<Stock> = this.afs.collection( 
+        this.currentPath , 
+        ref => ref.where('symbol','==', stock.symbol 
+      ));
+      let stockData:Observable<any> = stocks.valueChanges({idField: 'id'});
+      stockData.subscribe((values) => {
+        let docId = values[0].id;
+        let path = `${this.currentPath}/${docId}/prices`;
+        console.log( path );
+        this.priceDataCollection = this.afs.collection<PriceData>(path);
+        this.priceData = this.priceDataCollection.valueChanges();
+        resolve(this.priceData);
+      });
+    });
+    
+    
+    
+  }
+  addPriceData( data:PriceData ){
+    this.priceDataCollection.add(data);
+  }
+  //this function resolves the Promise with stock data or reject with an Error message
   getStockBySymbol(stockSymbol){
     return new Promise((resolve,reject) => {
       //api url
@@ -58,12 +87,12 @@ export class DataService {
           const newKeys = resultKeys.map( (key) => {
             return key.substring(3);
           });
-          let output:any = {};
-          output.symbol = stockSymbol;
-          output.time = new Date();
+          let output:any = { symbol: stockSymbol };
+          let pricedata:any = { time: new Date() };
           resultKeys.forEach( (resultKey, index ) => {
-            output[ newKeys[index] ] = resultValues[ index ];
+            pricedata[ newKeys[index] ] = resultValues[ index ];
           });
+          output.pricedata = pricedata;
           resolve( output );
         }
       });

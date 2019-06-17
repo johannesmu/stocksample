@@ -1,8 +1,6 @@
+import { PriceData } from './pricedata.interface';
+
 export interface Stock {
-    symbol: string,
-    time: Date,
-    open: number,
-    high: number,
-    low: number,
-    close: number
+    symbol: string;
 }
+

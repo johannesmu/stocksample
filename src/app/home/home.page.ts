@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MainService} from '../main.service';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms'; 
 import { DataService } from '../data.service';
@@ -8,6 +7,7 @@ import { StockAddPage } from '../stock-add/stock-add.page';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Stock } from '../models/stocks.interface';
+import { PriceData } from '../models/pricedata.interface';
 
 @Component({
   selector: 'app-home',
@@ -51,10 +51,17 @@ export class HomePage implements OnInit {
         if( response.data !== undefined ){
           //get data from the stock-add modal
           let data = response.data;
+          let stock = {symbol: response.data.symbol }
+          let pricedata = response.data.pricedata;
           this.dataService.addStock( data );
+          this.dataService.getPriceData(stock).then((response:Observable<PriceData>) => {
+            this.dataService.addPriceData(pricedata);
+          })
         }
       });
       return await modal.present();
   }
-
+  updatePrices(){
+     
+  }
 }
