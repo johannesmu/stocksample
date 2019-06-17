@@ -19,7 +19,8 @@ const routes: Routes = [
   { path: 'signin', loadChildren: './signin/signin.module#SigninPageModule' },
   { path: 'signout', loadChildren: './signout/signout.module#SignoutPageModule' },
   { path: 'stock-add', loadChildren: './stock-add/stock-add.module#StockAddPageModule' },
-  { path: 'history', loadChildren: './history/history.module#HistoryPageModule' }
+  { path: 'history', loadChildren: './history/history.module#HistoryPageModule' },  { path: 'stock-detail', loadChildren: './stock-detail/stock-detail.module#StockDetailPageModule' }
+
 ];
 
 @NgModule({

@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { DataService } from '../data.service';
 import { AuthService } from '../auth.service';
 import { StockAddPage } from '../stock-add/stock-add.page';
+import { StockDetailPage } from '../stock-detail/stock-detail.page';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Stock } from '../models/stocks.interface';
@@ -22,7 +23,7 @@ export class HomePage implements OnInit {
   followedStocks$:Observable<Stock[]>;
   userStocks:Array<Stock>=[];
 
-  
+
   constructor(
     private router: Router,
     private dataService: DataService,
@@ -65,16 +66,30 @@ export class HomePage implements OnInit {
       return await modal.present();
   }
   updatePrices(){
-    // update prices for all followed stock
+    // update prices for all followed stocks
     this.userStocks.forEach( (stock) => {
+      //get the latest price
       this.dataService.getStockBySymbol( stock.symbol )
       .then( (response:any) => {
+        //get the price data
         let pricedata = response.pricedata;
+        //create price data collection for the stock
         this.dataService.getPriceData( stock )
         .then( (response) => {
+          //add the new price data to stock
           this.dataService.addPriceData( pricedata );
         });
       });
+    });
+  }
+
+  async stockDetailPage( stock:Stock ){
+    //open modal showing stock prices and graph?
+    const modal = await this.modalController.create({
+      component: StockAddPage,
+      componentProps:{
+        'stock': stock
+      }
     });
   }
 }

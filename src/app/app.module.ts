@@ -23,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { StockAddPageModule } from '../app/stock-add/stock-add.module';
 //this was added recently.
 import { HttpClientModule } from '@angular/common/http';
+import { StockDetailPageModule } from './stock-detail/stock-detail.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     IonicModule.forRoot(),
     StockAddPageModule,
+    StockDetailPageModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
