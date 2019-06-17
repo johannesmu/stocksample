@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
   errors: Array<string>;
   
   followedStocks$:Observable<Stock[]>;
+  userStocks:Array<Stock>=[];
   constructor(
     private router: Router,
     private dataService: DataService,
@@ -35,8 +36,8 @@ export class HomePage implements OnInit {
       if( user ){
         let uid = user.uid;
         this.followedStocks$ = this.dataService.getStocks( uid );
-        this.followedStocks$.subscribe((data) => {
-          console.log(data);
+        this.followedStocks$.subscribe((values) => {
+          values.forEach( item => this.userStocks.push(item) );
         })
       }
     });
@@ -62,6 +63,16 @@ export class HomePage implements OnInit {
       return await modal.present();
   }
   updatePrices(){
-     
+    // update prices for all followed stock
+    this.userStocks.forEach( (stock) => {
+      this.dataService.getStockBySymbol( stock.symbol )
+      .then( (response:any) => {
+        let pricedata = response.pricedata;
+        this.dataService.getPriceData( stock )
+        .then( (response) => {
+          this.dataService.addPriceData( pricedata );
+        });
+      });
+    });
   }
 }

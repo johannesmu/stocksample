@@ -50,7 +50,6 @@ export class DataService {
       stockData.subscribe((values) => {
         let docId = values[0].id;
         let path = `${this.currentPath}/${docId}/prices`;
-        console.log( path );
         this.priceDataCollection = this.afs.collection<PriceData>(path);
         this.priceData = this.priceDataCollection.valueChanges();
         resolve(this.priceData);

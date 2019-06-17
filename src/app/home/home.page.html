@@ -22,7 +22,7 @@
       <h2>Stocks you follow</h2>
     </ion-list-header>
     <ion-item *ngIf="(followedStocks$ | async)?.length > 0">
-      <ion-button color="primary">Update Prices</ion-button>
+      <ion-button color="primary" (click)="updatePrices()">Update Prices</ion-button>
     </ion-item>
     <ion-item *ngFor="let stock of followedStocks$ | async" detail="true" detailIcon="pulse">
       <ion-label>{{stock.symbol}}</ion-label>
