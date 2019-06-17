@@ -25,6 +25,7 @@ import { StockAddPageModule } from '../app/stock-add/stock-add.module';
 import { HttpClientModule } from '@angular/common/http';
 import { StockDetailPageModule } from './stock-detail/stock-detail.module';
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

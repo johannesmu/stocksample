@@ -9,15 +9,27 @@
     <ion-item>
       <ion-grid>
         <ion-row>
-          <ion-col>Ti</ion-col>
-          <ion-col>Op</ion-col>
-          <ion-col>Lo</ion-col>
-          <ion-col>Hi</ion-col>
-          <ion-col>Cl</ion-col>
-          <ion-col>V</ion-col>
+          <ion-col>
+            <ion-icon name="time"></ion-icon>
+          </ion-col>
+          <ion-col>
+            <strong>Opn</strong>
+          </ion-col>
+          <ion-col>
+            <strong>Low</strong>
+          </ion-col>
+          <ion-col>
+            <strong>Hi</strong>
+          </ion-col>
+          <ion-col>
+            <strong>Cls</strong>
+          </ion-col>
+          <ion-col>
+            <strong>Vol</strong>
+          </ion-col>
         </ion-row>
         <ion-row *ngFor="let price of priceData$ | async">
-          <ion-col><ion-note>{{price.time.toDate() | date: 'd/m h:m'}}</ion-note></ion-col>
+          <ion-col><ion-note>{{price.time.toDate() | date: 'd/MM hh:mm'}}</ion-note></ion-col>
           <ion-col>{{price.open | number: '1.2-2'}}</ion-col>
           <ion-col>{{price.low | number: '1.2-2'}}</ion-col>
           <ion-col>{{price.high | number: '1.2-2'}}</ion-col>
@@ -33,6 +45,15 @@
     <ion-toolbar color="primary">
       <ion-buttons slot="start">
         <ion-button (click)="close()">Close</ion-button>
+        <ion-button (click)="updateStock()">Update</ion-button>
+        <ion-button (click)="clearData()">Clear Data</ion-button>
+        <ion-button (click)="deleteStock()">Delete Stock</ion-button>
+      </ion-buttons>
+      <ion-buttons>
+        
+      </ion-buttons>
+      <ion-buttons>
+        
       </ion-buttons>
     </ion-toolbar>
   </ion-footer>
