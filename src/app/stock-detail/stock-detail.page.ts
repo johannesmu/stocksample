@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { DataService } from '../data.service';
 import { AuthService } from '../auth.service';
@@ -12,9 +12,14 @@ import { Chart } from 'chart.js';
   templateUrl: './stock-detail.page.html',
   styleUrls: ['./stock-detail.page.scss'],
 })
+
 export class StockDetailPage implements OnInit {
   stock:Stock;
   priceData$:Observable<PriceData[]>;
+
+  @ViewChild('chart') chartCanvas;
+  chart:any;
+
   constructor(
     private modalController:ModalController,
     private dataService:DataService,
@@ -25,7 +30,29 @@ export class StockDetailPage implements OnInit {
     this.dataService.getPriceData(this.stock)
     .then( (response:Observable<PriceData[]>) => {
       this.priceData$ = response;
+      this.priceData$.subscribe( (values) => {
+        let chartLabels:Array<Date> = [];
+        let chartData:Array<number> = [];
+        values.forEach( (value, index ) => {
+          chartLabels.push(index);
+          chartData.push(value.close);
+        });
+        this.chart = new Chart(this.chartCanvas.nativeElement,{
+          type: 'line',
+          data: {
+            labels: chartLabels,
+            dataSets:[{
+              data: chartData,
+              label: 'Open',
+              borderColor: "red",
+              fill: false
+            }]
+          }
+        });
+      });
     });
+    
+    
   }
   close(){
     this.modalController.dismiss();
