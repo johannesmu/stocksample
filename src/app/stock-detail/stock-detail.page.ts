@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { PriceData } from '../models/pricedata.interface';
 import { Stock } from '../models/stocks.interface';
 import { Chart } from 'chart.js';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-stock-detail',
@@ -30,12 +31,17 @@ export class StockDetailPage implements OnInit {
     this.dataService.getPriceData(this.stock)
     .then( (response:Observable<PriceData[]>) => {
       this.priceData$ = response;
+      
       this.priceData$.subscribe( (values) => {
+        values.sort((val1,val2) => {
+          return val2.time.toDate() - val1.time.toDate();
+        });
         let chartLabels:Array<any> = [];
         let chartData:Array<number> = [];
+        
         values.forEach( (value, index ) => {
-          let date = value.time.toDate();
-          chartLabels.push( index );
+          let date = value.time.toDate().toDateString();
+          chartLabels.push( date );
           chartData.push(value.close);
         });
         this.chart = new Chart(this.chartCanvas.nativeElement,{
@@ -46,20 +52,10 @@ export class StockDetailPage implements OnInit {
                     label: `${this.stock.symbol} prices`,
                     data: chartData,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'hsla(242, 100%, 50%, 0.1)'
                     ],
                     borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'hsla(242, 100%, 50%, 1)'
                     ],
                     borderWidth: 1
                 }]
@@ -76,7 +72,9 @@ export class StockDetailPage implements OnInit {
         });
       });
     });
-    
+  }
+  sortByTime(obj1,obj2){
+    return new Date( obj2.time.toDate() ).getTime() - new Date(obj1.time.toDate() ).getTime() ;
   }
   close(){
     this.modalController.dismiss();
