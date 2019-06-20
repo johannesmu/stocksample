@@ -33,33 +33,45 @@ export class StockDetailPage implements OnInit {
       this.priceData$ = response;
       
       this.priceData$.subscribe( (values) => {
-        values.sort((val1,val2) => {
-          return val2.time.toDate() - val1.time.toDate();
-        });
+        
         let chartLabels:Array<any> = [];
-        let chartData:Array<number> = [];
+        let chartData1:Array<number> = [];
+        let chartData2:Array<number> = [];
+        let chartData3:Array<number> = [];
+        let chartData4:Array<number> = [];
         
         values.forEach( (value, index ) => {
           let date = value.time.toDate().toDateString();
-          chartLabels.push( date );
-          chartData.push(value.close);
+          chartLabels.push( index );
+          chartData1.push(value.close);
+          chartData2.push(value.open);
+          chartData3.push(value.high);
+          chartData4.push(value.low);
         });
+        console.log( chartData4 );
         this.chart = new Chart(this.chartCanvas.nativeElement,{
           type: 'line',
-            data: {
-                labels: chartLabels,
-                datasets: [{
-                    label: `${this.stock.symbol} prices`,
-                    data: chartData,
-                    backgroundColor: [
-                        'hsla(242, 100%, 50%, 0.1)'
-                    ],
-                    borderColor: [
-                        'hsla(242, 100%, 50%, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
+          data: {
+            labels: chartLabels,
+            datasets: [
+                {
+                  label: `${this.stock.symbol} close`,
+                  data: chartData1,
+                  fill: "false",
+                  borderColor: 'hsla(0, 100%, 50%, 1)',
+                  borderWidth: 1
+                },
+                {
+                  label: `${this.stock.symbol} open`,
+                  data: chartData2,
+                  fill: "false",
+                  borderColor: 'hsla(60, 100%, 50%, 1)',
+                  borderWidth: 1
+                }
+              
+
+            ]
+          },
             options: {
                 scales: {
                     yAxes: [{
